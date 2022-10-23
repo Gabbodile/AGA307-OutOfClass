@@ -4,6 +4,16 @@ using System.Globalization;
 using System.Threading;
 using UnityEngine;
 
+public enum EnemyType
+{
+    OneHand, TwoHand, Archer
+}
+
+public enum PatrolType
+{
+    Linear, Random, Loop
+}
+
 public class EnemyManager : MonoBehaviour
 {
     //Using square brackets, it calls in an array. 
@@ -12,11 +22,17 @@ public class EnemyManager : MonoBehaviour
     public GameObject[] enemyTypes;     //Contains Enemy Types
     public string[] enemyNames;
 
+    public float spawnDelay = 2f;
+    public int spawnCount = 10;         // need to add value to change in order to work
+
     public string killCondition = "Two";
+
+    GameManager _GM;
 
     void Start()
     {
-        SpawnEnemies();
+        _GM = FindObjectOfType<GameManager>();
+        StartCoroutine(SpawnDelay());
     }
 
     private void Update()
@@ -37,6 +53,18 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    IEnumerator SpawnDelay()
+    {
+        yield return new WaitForSeconds(spawnDelay);
+        if (_GM.gameState == GameState.Playing)
+            SpawnEnemy();
+
+        if (enemies.Count <= spawnCount)
+        {
+            StartCoroutine(SpawnDelay());
+        }
+    }
+
     /// <summary>
     /// Spawns one enemy
     /// </summary>
@@ -49,7 +77,7 @@ public class EnemyManager : MonoBehaviour
         int spawnPoint = Random.Range(0, spawnPoints.Length);
         GameObject enemy = Instantiate(enemyTypes[enemyNumber], spawnPoints[spawnPoint].position, spawnPoints[spawnPoint].rotation, transform);
         enemies.Add(enemy);
-        print(enemies.Count);
+        //print(enemies.Count);
     }
     /// <summary>
     /// Spawns all enemies to the spawnpoints
@@ -116,5 +144,10 @@ public class EnemyManager : MonoBehaviour
                 KillEnemy(enemies[i]);
             }
         }
+    }
+
+    public Transform GetRandomSpawnPoint()
+    {
+        return spawnPoints[Random.Range(0, spawnPoints.Length)];
     }
 }
