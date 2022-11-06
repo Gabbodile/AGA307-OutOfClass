@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : GameBehaviour
 {
     public CharacterController controller;
 
@@ -18,11 +18,11 @@ public class PlayerMovement : MonoBehaviour
     Vector3 velocity;
     bool isGrounded;
 
-    GameManager _GM;
+    // GameManager _GM;
 
     private void Start()
     {
-        _GM = FindObjectOfType<GameManager>();
+        // _GM = FindObjectOfType<GameManager>();
     }
 
     void Update()

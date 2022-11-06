@@ -2,29 +2,37 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : GameBehaviour
 {
+    /*public static event Action<GameObject> OnEnemyHit = null;
+    public static event Action<GameObject> OnEnemyDie = null;*/ 
+
     public EnemyType MyType;
     public float mySpeed = 2f;
     public int myHealth = 100;
-    Transform moveToPos;
-    EnemyManager _EM;       //calls another script into this script
+    Transform moveToPos;  
 
-    [Header("AI")]              //creates a new header
+    [Header("AI")]              
     public PatrolType myPatrol;
-    int patrolPoint = 0;        //needed for linear patrol movement
-    bool reverse = false;       //needed for repeat patrol movement
-    Transform startPos;         //needed for repeat patrol movement
-    Transform endPos;           //needed for repeat patrol movement
+    int patrolPoint = 0; 
+    bool reverse = false;
+    Transform startPos;
+    Transform endPos;
+
 
     void Start()
     {
-        _EM = FindObjectOfType<EnemyManager>();     //Immediately searches when game starts
         SetUp();
         StartCoroutine(move());
         SetupAI();
     }
-
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            Hit(10);
+        }
+    }
     void SetUp()
     {
         switch (MyType)
@@ -49,7 +57,16 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void SetupAI()
+    void Hit(int _damage)
+    {
+        myHealth -= _damage;
+        if (myHealth <= 0)
+            Die();
+        else
+            _GM.AddScore(10);
+    }
+
+        void SetupAI()
     {
         startPos = transform;
         endPos = _EM.GetRandomSpawnPoint();
@@ -81,5 +98,11 @@ public class Enemy : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, moveToPos.position, Time.deltaTime * mySpeed);
             yield return null;
         }
+    }
+    public void Die()
+    {
+        StopAllCoroutines();
+        _GM.AddScore(100);
+        _EM.KillEnemy(this.gameObject);
     }
 }

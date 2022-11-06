@@ -14,7 +14,7 @@ public enum PatrolType
     Linear, Random, Loop
 }
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : Singleton<EnemyManager>
 {
     //Using square brackets, it calls in an array. 
     public Transform[] spawnPoints;     //Contains the amount of spawnpoints
@@ -95,7 +95,7 @@ public class EnemyManager : MonoBehaviour
     /// Kills specific enemy
     /// </summary>
     /// <param name="_enemy"></param>
-    void KillEnemy(GameObject _enemy)
+    public void KillEnemy(GameObject _enemy)
     {
         //kills an enemy. Destroy the GameObject
         if (enemies.Count == 0)
