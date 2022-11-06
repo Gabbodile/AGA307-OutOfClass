@@ -91,7 +91,7 @@ public class EnemyManager : Singleton<EnemyManager>
         {
             GameObject enemy = Instantiate(enemyTypes[Random.Range(0, enemyTypes.Length)], spawnPoints[i].position, spawnPoints[i].rotation, transform);
             enemies.Add(enemy);
-            _UI.UpdateEnemyCount(enemies.Count);
+            //_UI.UpdateEnemyCount(enemies.Count);
         }
     }
     /// <summary>
