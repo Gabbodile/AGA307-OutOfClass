@@ -28,10 +28,12 @@ public class EnemyManager : Singleton<EnemyManager>
     public string killCondition = "Two";
 
     GameManager _GM;
+    UIManager _UI;
 
     void Start()
     {
         _GM = FindObjectOfType<GameManager>();
+        _UI = FindObjectOfType<UIManager>();
         StartCoroutine(SpawnDelay());
     }
 
@@ -89,6 +91,7 @@ public class EnemyManager : Singleton<EnemyManager>
         {
             GameObject enemy = Instantiate(enemyTypes[Random.Range(0, enemyTypes.Length)], spawnPoints[i].position, spawnPoints[i].rotation, transform);
             enemies.Add(enemy);
+            _UI.UpdateEnemyCount(enemies.Count);
         }
     }
     /// <summary>

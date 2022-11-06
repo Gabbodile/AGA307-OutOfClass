@@ -20,10 +20,13 @@ public class GameManager : Singleton<GameManager>
     public int scoreMultiplier;
     float timer;
 
+    UIManager _UI;
+
     //public static event Action<Difficulty> OnDifficultyChanged = null;
 
     private void Start()
     {
+        _UI = FindObjectOfType<UIManager>();
         timer = 0;
         SetUp();
         //OnDifficultyChanged?.Invoke(difficulty);
@@ -34,7 +37,7 @@ public class GameManager : Singleton<GameManager>
         if (gameState == GameState.Playing)
         {
             timer += Time.deltaTime;
-            //_UI.UpdateTimer(timer);
+            _UI.UpdateTimer(timer);
         }
     }
 
@@ -57,10 +60,16 @@ public class GameManager : Singleton<GameManager>
         }
     }
 
+    public void ChangeDifficulty(int _difficulty)
+    {
+        difficulty = (Difficulty)_difficulty;
+        SetUp();
+    }
+
     public void AddScore(int _score)
     {
-        score = _score * scoreMultiplier;
-        //_UI.UpdateScore(score);
+        score += _score * scoreMultiplier;
+        _UI.UpdateScore(score);
     }
 
     public void LoadGame()
@@ -74,12 +83,6 @@ public class GameManager : Singleton<GameManager>
     public void QuitGame()
     {
         Application.Quit();
-    }
-
-    public void ChangeDifficulty(int _difficulty)
-    {
-        difficulty = (Difficulty)_difficulty;
-        SetUp();
     }
 
     /*private void OnEnable()
@@ -99,7 +102,7 @@ public class GameManager : Singleton<GameManager>
     {
         AddScore(10);
     }
-    void OnEnemyDie(GameObject _enemy)
+    void OnEnemyDie(GameObject _enemy) 
     {
         AddScore(100);
     }

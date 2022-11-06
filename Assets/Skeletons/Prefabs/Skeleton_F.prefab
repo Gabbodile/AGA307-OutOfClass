@@ -2034,7 +2034,7 @@ GameObject:
   - component: {fileID: -3793535373508208555}
   m_Layer: 0
   m_Name: Skeleton_F
-  m_TagString: Untagged
+  m_TagString: Target
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

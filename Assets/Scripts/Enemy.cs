@@ -66,7 +66,7 @@ public class Enemy : GameBehaviour
             _GM.AddScore(10);
     }
 
-        void SetupAI()
+    void SetupAI()
     {
         startPos = transform;
         endPos = _EM.GetRandomSpawnPoint();
